@@ -2,19 +2,19 @@
 
 const lancheiras = [
   {
-    frutas: "abacaxi",
+    fruta: "abacaxi",
     suco: "morango",
     agua: true,
     preco: 10,
   },
   {
-    frutas: "banana",
+    fruta: "banana",
     suco: "uva",
     agua: false,
     preco: 15,
   },
   {
-    frutas: "maçã",
+    fruta: "maçã",
     suco: "laranja",
     agua: true,
     preco: 8,
@@ -23,90 +23,143 @@ const lancheiras = [
 
 const numbers = [5, 9, 10, 30, 5, 8, 19, 9, 8, 50];
 
-/*Método: map()*/
+/*Método: map()*/ // callback
 
-function mapa(array) {
+function percorrerMapa(elemento) {
   let novaLista = [];
-  for (let i = 0; i < array.length; i++) {
-    novaLista = array;
-    if (novaLista[i].suco == "laranja") {
+  for (let i = 0; i < lancheiras.length; i++) {
+    novaLista = lancheiras;
+    if (novaLista[i].suco == elemento) {
       novaLista[i].suco = "amora";
     }
   }
-  return novaLista; // retorna a lista alterada sem alterar a original
+  return novaLista;
 }
-console.log(mapa(lancheiras));
 
-/*Método: filter()*/ // - check
+function mapa(elemento) {
+  const listaTrocada = percorrerMapa(elemento);
 
-function filtro(array) {
+  return listaTrocada;
+}
+
+console.log(mapa("laranja"));
+
+/*Método: filter()*/ // - check // callback
+
+function percorrerfiltro(elemento) {
   let filtrado = [];
 
-  for (let i = 0; i < array.length; i++) {
-    if (array[i].agua == true) {
-      filtrado.push(array[i]);
+  for (let i = 0; i < lancheiras.length; i++) {
+    if (elemento == undefined) {
+      return lancheiras
+    }
+
+    if (elemento == lancheiras[i].agua) {
+      filtrado.push(lancheiras[i]);
+    } else if (elemento == lancheiras[i].fruta) {
+      filtrado.push(lancheiras[i]);
+    } else if (elemento == lancheiras[i].suco) {
+      filtrado.push(lancheiras[i]);
+    } else if (elemento == lancheiras[i].preco) {
+      filtrado.push(lancheiras[i]);
     }
   }
-  return filtrado; // filtrar as lancheiras que tem água
+  return filtrado;
 }
 
-console.log(filtro(lancheiras));
+function filtro(elemento) {
+  const listaFiltrada = percorrerfiltro(elemento);
 
-/*Método: find()*/ // - check
+  return listaFiltrada;
+}
 
-function filtroUnidade(array) {
+console.log(filtro(true));
+
+/*Método: find()*/ // - check // callback
+
+function percorreFiltroUnidade(elemento) {
   let filtrado = [];
+  
+  for (let i = 0; i < lancheiras.length; i++) {
+    if (elemento == undefined) {
+      return lancheiras
+    }
 
-  for (let i = 0; i < array.length; i++) {
-    if (array[i].agua == true) {
-      filtrado.push(array[i]);
-      return filtrado; // filtrar a primeira lancheira que tem água
+    if (elemento == "agua" && lancheiras[i].agua == true) {
+      filtrado.push(lancheiras[i]);
+      return filtrado
+    } else if (elemento == lancheiras[i].fruta) {
+      filtrado.push(lancheiras[i]);
+      return filtrado
+    } else if (elemento == lancheiras[i].suco) {
+      filtrado.push(lancheiras[i]);
+      return filtrado
+    } else if (elemento == lancheiras[i].preco) {
+      filtrado.push(lancheiras[i]);
+      return filtrado
     }
   }
 }
 
-console.log(filtroUnidade(lancheiras));
+function filtroUnidade(elemento) {
+  const listaFiltradaPorUnidade = percorreFiltroUnidade(elemento)
 
-/*Método: reduce()*/ // - check
-
-function reducao(array) {
-  let acumulador = 0;
-  for (let i = 0; i < array.length; i++) {
-    acumulador += array[i].preco;
-  }
-  return acumulador; // reduz os preços em um unico valor os somando
+  return listaFiltradaPorUnidade
 }
 
-console.log(reducao(lancheiras));
+console.log(filtroUnidade("banana"));
+
+/*Método: reduce()*/ // - check // callback
+
+function percorrerReducao(elemento) {
+  if (elemento == "preco") {
+    let acumulador = 0;
+    for (let i = 0; i < lancheiras.length; i++) {
+      acumulador += lancheiras[i].preco;
+    }
+    return acumulador;
+  }
+  if (elemento == undefined) {
+    return lancheiras
+  }
+} 
+
+function reducao(elemento) {
+  const listaReducao = percorrerReducao(elemento);
+
+  return listaReducao;
+}
+
+console.log(reducao("preco"));
 
 /*Método: includes()*/
 
 function incluir(array, confirir, index) {
   if (index == undefined) {
-    index = 0
+    index = 0;
   }
   for (let i = index; i < array.length; i++) {
     if (array[i] == confirir) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
-console.log(incluir(numbers, 5, -1)) // retorna o true ou false
+console.log(incluir(numbers, 5, -1)); // retorna o true ou false
 
 /*Método: indexOf()*/
 
 function indice(array, conferir, index) {
   if (index == undefined) {
-    index = 0
+    index = 0;
   }
   for (let i = index; array.length; i++) {
     if (array[i] == conferir) {
-      return i
+      return i;
     }
   }
-  return -1
+  return -1;
 }
 
-console.log(indice(numbers, 5))
+console.log(indice(numbers, 5));
