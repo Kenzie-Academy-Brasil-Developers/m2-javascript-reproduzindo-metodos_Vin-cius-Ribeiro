@@ -25,112 +25,97 @@ const numbers = [5, 9, 10, 30, 5, 8, 19, 9, 8, 50];
 
 /*Método: map()*/ // callback
 
-function percorrerMapa(elemento) {
+function percorrerMapa(elemento, index, array) {
+  let copia = { ...elemento };
+
+  if (elemento.suco == "laranja") {
+    copia.suco = "amora";
+  }
+  return copia;
+}
+
+function mapa(array, callback) {
   let novaLista = [];
-  for (let i = 0; i < lancheiras.length; i++) {
-    novaLista = lancheiras;
-    if (novaLista[i].suco == elemento) {
-      novaLista[i].suco = "amora";
-    }
+  for (let i = 0; i < array.length; i++) {
+    novaLista.push(callback(array[i], i, array));
   }
   return novaLista;
 }
 
-function mapa(elemento) {
-  const listaTrocada = percorrerMapa(elemento);
-
-  return listaTrocada;
-}
-
-console.log(mapa("laranja"));
+console.log(mapa(lancheiras, percorrerMapa));
 
 /*Método: filter()*/ // - check // callback
 
-function percorrerfiltro(elemento) {
-  let filtrado = [];
+function percorrerfiltro(elemento, index, array) {
+  let copia;
 
-  for (let i = 0; i < lancheiras.length; i++) {
-    if (elemento == undefined) {
-      return lancheiras
-    }
-
-    if (elemento == lancheiras[i].agua) {
-      filtrado.push(lancheiras[i]);
-    } else if (elemento == lancheiras[i].fruta) {
-      filtrado.push(lancheiras[i]);
-    } else if (elemento == lancheiras[i].suco) {
-      filtrado.push(lancheiras[i]);
-    } else if (elemento == lancheiras[i].preco) {
-      filtrado.push(lancheiras[i]);
-    }
+  if (elemento.agua == true) {
+    copia = elemento;
   }
-  return filtrado;
+  return copia;
 }
 
-function filtro(elemento) {
-  const listaFiltrada = percorrerfiltro(elemento);
+function filtro(array, callback) {
+  const listaFiltrada = [];
+
+  for (let i = 0; i < array.length; i++) {
+    if (callback(array[i], i, array) != undefined) {
+      listaFiltrada.push(callback(array[i], i, array));
+    }
+  }
 
   return listaFiltrada;
 }
 
-console.log(filtro(true));
+console.log(filtro(lancheiras, percorrerfiltro));
 
 /*Método: find()*/ // - check // callback
 
-function percorreFiltroUnidade(elemento) {
-  let filtrado = [];
-  
-  for (let i = 0; i < lancheiras.length; i++) {
-    if (elemento == undefined) {
-      return lancheiras
-    }
+function percorreFiltroUnidade(elemento, index, array) {
+  let filtrado;
 
-    if (elemento == "agua" && lancheiras[i].agua == true) {
-      filtrado.push(lancheiras[i]);
-      return filtrado
-    } else if (elemento == lancheiras[i].fruta) {
-      filtrado.push(lancheiras[i]);
-      return filtrado
-    } else if (elemento == lancheiras[i].suco) {
-      filtrado.push(lancheiras[i]);
-      return filtrado
-    } else if (elemento == lancheiras[i].preco) {
-      filtrado.push(lancheiras[i]);
-      return filtrado
-    }
+  if (elemento == undefined) {
+    return lancheiras;
+  }
+  if (elemento.fruta == "banana") {
+    filtrado = elemento;
+    return filtrado;
   }
 }
 
-function filtroUnidade(elemento) {
-  const listaFiltradaPorUnidade = percorreFiltroUnidade(elemento)
+function filtroUnidade(array, callback) {
+  let listaFiltradaPorUnidade = [];
 
-  return listaFiltradaPorUnidade
+  for (let i = 0; i < array.length; i++) {
+    if (callback(array[i], i, array) != undefined) {
+      listaFiltradaPorUnidade.push(callback(array[i], i, array));
+    }
+  }
+
+  return listaFiltradaPorUnidade;
 }
 
-console.log(filtroUnidade("banana"));
+console.log(filtroUnidade(lancheiras, percorreFiltroUnidade));
 
 /*Método: reduce()*/ // - check // callback
 
-function percorrerReducao(elemento) {
-  if (elemento == "preco") {
-    let acumulador = 0;
-    for (let i = 0; i < lancheiras.length; i++) {
-      acumulador += lancheiras[i].preco;
-    }
-    return acumulador;
-  }
-  if (elemento == undefined) {
-    return lancheiras
-  }
-} 
+function percorrerReducao(acumulador, valorAtual, index, array) {
 
-function reducao(elemento) {
-  const listaReducao = percorrerReducao(elemento);
-
-  return listaReducao;
+  let cont = acumulador + valorAtual
+  
+  return cont;
 }
 
-console.log(reducao("preco"));
+function reducao(array, callback) {
+  let acumulador = 0;
+  
+  for (let i = 0; i < array.length; i++) {
+   acumulador = callback(acumulador, array[i].preco, i, array)
+  }
+  return acumulador
+}
+
+console.log(reducao(lancheiras, percorrerReducao));
 
 /*Método: includes()*/
 
@@ -162,4 +147,4 @@ function indice(array, conferir, index) {
   return -1;
 }
 
-console.log(indice(numbers, 5));
+console.log(indice(numbers, 9));
